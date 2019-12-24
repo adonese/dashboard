@@ -17,11 +17,12 @@ export default {
         const searchField = Object.keys(params.filter) || "";
         const { field, order } = params.sort;
         console.log("the params.filter is: ", query)
+        
 
 
         // apiUrl?search=324&field=undefined&sort=id&order=ASC
         // const url = `${apiUrl}/all?search=${query}&field=searchField&sort=&order=`
-        const url = `${apiUrl}/all?search=${query}&field=${searchField}&sort=${field}&order=${order}`;
+        const url = `${apiUrl}/all?search=${query}&field=${searchField}&sort_field=${field}&order=${order}`;
 
         return httpClient(url).then(({ json }) => ({
 
