@@ -5,7 +5,7 @@ const apiUrl = 'https://beta.soluspay.net/api/dashboard';
 const httpClient = fetchUtils.fetchJson;
 
 export default {
-    getList: () => {
+    getList: (_, params) => {
         // const { page, perPage } = params.pagination;
         // const { field, order } = params.sort;
         // const query = {
@@ -13,7 +13,15 @@ export default {
         //     range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
         //     filter: JSON.stringify(params.filter),
         // };
-        const url = `${apiUrl}/all`;
+        const query = params.filter.terminalId || ""
+        const searchField = Object.keys(params.filter) || "";
+        const { field, order } = params.sort;
+        console.log("the params.filter is: ", query)
+
+
+        // apiUrl?search=324&field=undefined&sort=id&order=ASC
+        // const url = `${apiUrl}/all?search=${query}&field=searchField&sort=&order=`
+        const url = `${apiUrl}/all?search=${query}&field=${searchField}&sort=${field}&order=${order}`;
 
         return httpClient(url).then(({ json }) => ({
 
@@ -26,13 +34,13 @@ export default {
 
     getOne: (resource, params) =>
         httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-            data: json["result"],
+            data: json["result"].map(resource => ({ ...resource, id: resource.ID })),
         })),
 
     getMany: () => {
         const url = `${apiUrl}/all`;
         return httpClient(url).then(({ json }) => ({
-             data: json["result"]
+            data: json["result"].map(resource => ({ ...resource, id: resource.ID })),
         }));
     },
 
