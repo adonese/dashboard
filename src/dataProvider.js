@@ -6,7 +6,7 @@ const httpClient = fetchUtils.fetchJson;
 
 export default {
     getList: (_, params) => {
-        // const { page, perPage } = params.pagination;
+        const { page, perPage } = params.pagination;
         // const { field, order } = params.sort;
         // const query = {
         //     sort: JSON.stringify([field, order]),
@@ -22,7 +22,7 @@ export default {
 
         // apiUrl?search=324&field=undefined&sort=id&order=ASC
         // const url = `${apiUrl}/all?search=${query}&field=searchField&sort=&order=`
-        const url = `${apiUrl}/all?search=${query}&field=${searchField}&sort_field=${field}&order=${order}`;
+        const url = `${apiUrl}/all?search=${query}&field=${searchField}&sort_field=${field}&order=${order}&page=${page}&perPage=${perPage}`;
 
         return httpClient(url).then(({ json }) => ({
 
